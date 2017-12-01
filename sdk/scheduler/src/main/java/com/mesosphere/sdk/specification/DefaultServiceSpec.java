@@ -4,14 +4,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.node.IntNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 import com.google.common.annotations.VisibleForTesting;
 import com.mesosphere.sdk.config.ConfigurationComparator;
@@ -383,6 +380,9 @@ public class DefaultServiceSpec implements ServiceSpec {
             return defaultRegisteredSubtypes;
         }
 
+        /**
+         * Custom deserializer for goal states to accomodate transition from FINISHED to ONCE/FINISH.
+         */
         public static class GoalStateDeserializer extends StdDeserializer<GoalState> {
 
             public GoalStateDeserializer() {
